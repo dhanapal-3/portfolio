@@ -1,0 +1,80 @@
+<section
+  id="projects"
+  class="section-y"
+  aria-labelledby="projects-heading"
+>
+  <div class="section-inner">
+    <div appScrollReveal class="mb-16 flex flex-col gap-8 lg:mb-20 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-3xl">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__mark"></span>
+          <span class="section-eyebrow__text text-neon-cyan/90">Selected work</span>
+        </div>
+        <h2 id="projects-heading" class="headline-section">
+          Platforms engineered for
+          <span class="text-gradient"> scale &amp; intelligence</span>
+        </h2>
+        <p class="lead-section">
+          A curated slice of builds—AI orchestration, booking infra, hiring tools, and internal comms—each with clear ownership from UI to persistence.
+        </p>
+      </div>
+      <div
+        class="hidden shrink-0 rounded-full border border-white/[0.08] bg-white/[0.03] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-500 lg:inline-flex"
+      >
+        2019 — Present
+      </div>
+    </div>
+
+    <div class="project-grid">
+      @for (p of projects; track p.name; let idx = $index) {
+        <article
+          appScrollReveal
+          class="project-card card-glow-edge group relative flex h-full min-h-[260px] flex-col overflow-hidden rounded-[2rem] border border-white/[0.06] p-9 md:min-h-[300px] md:p-11"
+          [class]="cardClasses(p.gradient)"
+        >
+          <div [class]="shimmerClasses(p.accent)"></div>
+
+          <span
+            class="pointer-events-none absolute right-6 top-6 font-display text-[clamp(3rem,8vw,5rem)] font-extrabold leading-none text-white/[0.04] transition duration-700 group-hover:text-white/[0.07]"
+            aria-hidden="true"
+            >{{ formatIndex(idx) }}</span
+          >
+
+          <div class="relative flex flex-1 flex-col lg:flex-row lg:gap-14">
+            <div class="max-w-xl flex-1">
+              <div class="flex flex-wrap items-baseline gap-4">
+                <h3 class="font-display text-[clamp(1.65rem,3vw,2.25rem)] font-bold tracking-tight text-white">
+                  {{ p.name }}
+                </h3>
+                <span
+                  class="rounded-full border border-white/[0.07] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500"
+                  >{{ p.subtitle }}</span
+                >
+              </div>
+              <p class="mt-6 text-[1.0625rem] leading-relaxed text-zinc-400 md:text-lg">
+                {{ p.description }}
+              </p>
+            </div>
+            <div class="mt-10 max-w-md flex-1 lg:mt-0">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-zinc-500">
+                Highlights
+              </p>
+              <ul class="mt-5 space-y-4">
+                @for (h of p.highlights; track h) {
+                  <li
+                    class="flex items-start gap-4 text-[15px] leading-snug text-zinc-300 transition duration-500 group-hover:translate-x-1"
+                  >
+                    <span
+                      class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-neon-cyan to-neon-fuchsia shadow-[0_0_14px_rgba(34,211,238,0.6)]"
+                    ></span>
+                    {{ h }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+<section
+  id="skills"
+  class="section-y"
+  aria-labelledby="skills-heading"
+>
+  <div class="section-inner">
+    <div appScrollReveal class="mb-16 max-w-3xl">
+      <div class="section-eyebrow">
+        <span class="section-eyebrow__mark"></span>
+        <span class="section-eyebrow__text text-neon-violet/90">Capabilities</span>
+      </div>
+      <h2 id="skills-heading" class="headline-section">
+        Stack depth across the
+        <span class="text-gradient"> full spectrum</span>
+      </h2>
+      <p class="lead-section">
+        Tooling I reach for daily—from typed Angular surfaces to vector stores and observability.
+      </p>
+    </div>
+
+    <div class="grid gap-8 lg:grid-cols-2 lg:gap-10">
+      @for (group of groups; track group.title) {
+        <div
+          appScrollReveal
+          class="skill-panel card-glow-edge glass-card relative overflow-hidden rounded-[1.75rem] p-9 md:p-10"
+        >
+          <div
+            class="pointer-events-none absolute -right-20 top-0 h-56 w-56 rounded-full opacity-40 blur-3xl"
+            [class]="skillWash(group.accent)"
+          ></div>
+          <div class="relative mb-8 flex items-end justify-between gap-4">
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-zinc-500">
+                Domain
+              </p>
+              <h3 class="font-display mt-2 text-2xl font-bold tracking-tight text-white">
+                {{ group.title }}
+              </h3>
+            </div>
+            <span
+              class="skill-dot"
+              [attr.data-accent]="group.accent"
+              aria-hidden="true"
+            ></span>
+          </div>
+          <ul class="flex flex-wrap gap-2.5">
+            @for (skill of group.items; track skill) {
+              <li>
+                <span
+                  class="skill-chip inline-flex rounded-full border border-white/[0.06] px-4 py-2 text-[13px] font-medium text-zinc-200 shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset] transition duration-300 hover:-translate-y-0.5 hover:border-white/15"
+                  [attr.data-accent]="group.accent"
+                  >{{ skill }}</span
+                >
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </div>
+</section>

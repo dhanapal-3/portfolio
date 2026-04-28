@@ -1,0 +1,71 @@
+.style-orbit {
+  animation: orbit-spin 90s linear infinite;
+}
+
+.style-orbit-delayed {
+  animation: orbit-spin 120s linear infinite reverse;
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-stagger-item {
+  opacity: 0;
+  transform: translate3d(0, 44px, 0);
+  filter: blur(14px);
+  animation: hero-rise 1.25s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+}
+
+.hero-stagger-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.hero-stagger-item:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.hero-stagger-item:nth-child(3) {
+  animation-delay: 0.26s;
+}
+
+.hero-stagger-item:nth-child(4) {
+  animation-delay: 0.34s;
+}
+
+.hero-stagger-item:nth-child(5) {
+  animation-delay: 0.42s;
+}
+
+.hero-stagger-item:nth-child(6) {
+  animation-delay: 0.52s;
+}
+
+@keyframes hero-rise {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+.mouse-dot {
+  animation: mouse-scroll 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes mouse-scroll {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  55% {
+    opacity: 0.35;
+    transform: translate(-50%, 14px);
+  }
+}

@@ -1,0 +1,155 @@
+<section
+  id="hero"
+  class="relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-4 pb-32 pt-32 sm:px-8 lg:px-12"
+>
+  <!-- Decorative rings -->
+  <div
+    class="pointer-events-none absolute left-1/2 top-[18%] h-[min(720px,120vw)] w-[min(720px,120vw)] -translate-x-1/2 opacity-[0.55]"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute inset-0 rounded-full border border-white/[0.06] style-orbit"
+    ></div>
+    <div
+      class="absolute inset-[12%] rounded-full border border-neon-cyan/[0.09] style-orbit-delayed"
+    ></div>
+    <div
+      class="absolute inset-[26%] rounded-full border border-neon-fuchsia/[0.07]"
+    ></div>
+  </div>
+
+  <div class="section-inner relative">
+    <div class="mx-auto max-w-[52rem]">
+      <div class="hero-stagger flex flex-col">
+        <div class="hero-stagger-item">
+          <div
+            class="inline-flex items-center gap-3 rounded-full border border-white/[0.09] bg-gradient-to-r from-white/[0.06] to-white/[0.02] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.38em] text-zinc-400 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur-md"
+          >
+            <span
+              class="relative flex h-2 w-2 items-center justify-center"
+              aria-hidden="true"
+            >
+              <span
+                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon-emerald/40 opacity-60"
+              ></span>
+              <span class="relative h-1.5 w-1.5 rounded-full bg-neon-emerald shadow-[0_0_12px_#34d399]"></span>
+            </span>
+            Open for selective engagements
+          </div>
+        </div>
+
+        <div class="hero-stagger-item mt-12">
+          <p
+            class="text-[13px] font-medium uppercase tracking-[0.32em] text-zinc-500"
+          >
+            Full stack · AI systems
+          </p>
+          <h1
+            class="font-display mt-5 text-[clamp(2.75rem,8vw,5.25rem)] font-extrabold leading-[0.95] tracking-[-0.045em] text-white"
+          >
+            <span class="text-gradient block">{{ profile.name }}</span>
+          </h1>
+          <p
+            class="font-display mt-6 max-w-xl text-[clamp(1.125rem,2.8vw,1.75rem)] font-semibold leading-snug tracking-[-0.02em] text-zinc-300"
+          >
+            {{ profile.role }}
+          </p>
+        </div>
+
+        <div class="hero-stagger-item mt-10">
+          <p
+            class="typing-cursor max-w-2xl text-[clamp(1.05rem,2vw,1.35rem)] leading-[1.65] text-zinc-400"
+          >
+            {{ typedLine() }}
+          </p>
+        </div>
+
+        <div class="hero-stagger-item mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <span
+            class="inline-flex items-center gap-2 text-[13px] font-medium text-zinc-500"
+          >
+            <span
+              class="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03]"
+              aria-hidden="true"
+            >
+              <svg class="h-4 w-4 text-neon-fuchsia" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </span>
+            {{ profile.location }}
+          </span>
+          <span class="hidden h-4 w-px bg-white/10 sm:block" aria-hidden="true"></span>
+          <span class="text-[13px] text-zinc-600">Enterprise velocity · AI-native workflows</span>
+        </div>
+
+        <div class="hero-stagger-item mt-12 flex flex-wrap items-center gap-5">
+          <a href="#projects" class="btn-primary-premium group">
+            Explore work
+            <svg
+              class="relative z-[1] h-5 w-5 transition duration-300 group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+          <a href="#contact" class="btn-ghost-premium"> Start a conversation </a>
+        </div>
+
+        <div class="hero-stagger-item mt-20 grid gap-5 sm:grid-cols-3">
+          @for (
+            stat of [
+              { label: 'Shipped', value: 'Enterprise suites', sub: 'Multi-team rollout' },
+              { label: 'AI', value: 'LangChain stack', sub: 'Streaming + guardrails' },
+              { label: 'Core', value: 'Angular + Node', sub: 'End-to-end ownership' },
+            ];
+            track stat.label
+          ) {
+            <div
+              class="card-glow-edge glass-card group/card rounded-2xl px-6 py-5 transition duration-500 hover:-translate-y-1"
+            >
+              <div class="text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                {{ stat.label }}
+              </div>
+              <div class="mt-2 font-display text-lg font-bold tracking-tight text-white">
+                {{ stat.value }}
+              </div>
+              <div class="mt-2 text-[13px] leading-snug text-zinc-500 transition group-hover/card:text-zinc-400">
+                {{ stat.sub }}
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="pointer-events-none absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 text-zinc-600"
+    aria-hidden="true"
+  >
+    <span class="text-[10px] font-semibold uppercase tracking-[0.5em]">Scroll</span>
+    <div class="relative h-12 w-[26px] rounded-full border border-white/[0.12] bg-white/[0.02] p-1.5 shadow-[0_0_24px_rgba(34,211,238,0.08)]">
+      <div
+        class="mouse-dot absolute left-1/2 top-2 h-2 w-1 -translate-x-1/2 rounded-full bg-gradient-to-b from-neon-cyan to-neon-fuchsia"
+      ></div>
+    </div>
+  </div>
+</section>

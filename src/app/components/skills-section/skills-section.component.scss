@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.skill-panel:hover .skill-dot[data-accent='cyan'] {
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.45);
+}
+
+.skill-panel:hover .skill-dot[data-accent='violet'] {
+  box-shadow: 0 0 24px rgba(167, 139, 250, 0.45);
+}
+
+.skill-panel:hover .skill-dot[data-accent='fuchsia'] {
+  box-shadow: 0 0 24px rgba(232, 121, 249, 0.45);
+}
+
+.skill-panel:hover .skill-dot[data-accent='emerald'] {
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.45);
+}
+
+.skill-dot {
+  display: block;
+  height: 10px;
+  width: 10px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #22d3ee, #e879f9);
+  transition: box-shadow 0.3s ease;
+}
+
+.skill-dot[data-accent='cyan'] {
+  background: linear-gradient(135deg, #22d3ee, #06b6d4);
+}
+
+.skill-dot[data-accent='violet'] {
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+}
+
+.skill-dot[data-accent='fuchsia'] {
+  background: linear-gradient(135deg, #e879f9, #c026d3);
+}
+
+.skill-dot[data-accent='emerald'] {
+  background: linear-gradient(135deg, #34d399, #059669);
+}
+
+.skill-chip[data-accent='cyan'] {
+  background: rgba(34, 211, 238, 0.08);
+}
+
+.skill-chip[data-accent='violet'] {
+  background: rgba(167, 139, 250, 0.08);
+}
+
+.skill-chip[data-accent='fuchsia'] {
+  background: rgba(232, 121, 249, 0.08);
+}
+
+.skill-chip[data-accent='emerald'] {
+  background: rgba(52, 211, 153, 0.08);
+}

@@ -1,0 +1,67 @@
+<section
+  id="experience"
+  class="section-y"
+  aria-labelledby="experience-heading"
+>
+  <div class="section-inner">
+    <div appScrollReveal class="mb-16 max-w-3xl">
+      <div class="section-eyebrow">
+        <span class="section-eyebrow__mark"></span>
+        <span class="section-eyebrow__text text-neon-emerald/90">Trajectory</span>
+      </div>
+      <h2 id="experience-heading" class="headline-section">
+        Shipping velocity inside
+        <span class="text-gradient"> serious enterprise</span>
+      </h2>
+      <p class="lead-section">
+        One anchor employer—deep context, long arcs of ownership, and measurable outcomes across product cycles.
+      </p>
+    </div>
+
+    <div appScrollReveal class="card-glow-edge glass-card relative overflow-hidden rounded-[2rem] p-10 md:p-14 lg:p-16">
+      <div
+        class="pointer-events-none absolute inset-y-12 left-[2.35rem] w-px overflow-hidden md:left-[2.65rem]"
+        aria-hidden="true"
+      >
+        <div class="timeline-beam absolute inset-0 w-full"></div>
+      </div>
+
+      <div class="relative pl-14 md:pl-[4.5rem]">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-zinc-500">
+              Current chapter
+            </p>
+            <h3 class="font-display mt-3 text-[clamp(1.75rem,3vw,2.35rem)] font-bold tracking-tight text-white">
+              {{ experience.company }}
+            </h3>
+          </div>
+          <span
+            class="inline-flex w-fit items-center rounded-full border border-white/[0.1] bg-white/[0.04] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-400"
+            >Full stack · AI</span
+          >
+        </div>
+
+        <ul class="relative mt-14 space-y-12">
+          @for (item of experience.bullets; track item) {
+            <li class="timeline-row group relative pl-2">
+              <span
+                class="timeline-glow absolute -left-[2.15rem] top-2 flex h-5 w-5 items-center justify-center rounded-full border border-neon-cyan/40 bg-surface shadow-[0_0_24px_rgba(34,211,238,0.35)] md:-left-[2.45rem]"
+                aria-hidden="true"
+              >
+                <span
+                  class="h-2 w-2 rounded-full bg-gradient-to-br from-neon-cyan via-white to-neon-fuchsia transition duration-500 group-hover:scale-125 group-hover:shadow-[0_0_16px_rgba(232,121,249,0.9)]"
+                ></span>
+              </span>
+              <p
+                class="text-[1.0625rem] leading-[1.75] text-zinc-300 transition duration-500 group-hover:text-white md:text-lg"
+              >
+                {{ item }}
+              </p>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

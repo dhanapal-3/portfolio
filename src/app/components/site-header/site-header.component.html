@@ -1,0 +1,112 @@
+<header
+  class="header fixed left-0 right-0 top-0 z-50 border-b border-white/[0.07] bg-surface/[0.72] backdrop-blur-2xl backdrop-saturate-150"
+>
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-neon-cyan/40 to-transparent opacity-80"
+  ></div>
+
+  <div
+    class="mx-auto flex max-w-[88rem] items-center justify-between gap-6 px-5 py-5 sm:px-8 lg:px-12"
+  >
+    <a
+      href="#hero"
+      class="logo-lockup group relative flex items-center gap-3 font-display text-[17px] font-semibold tracking-tight text-white"
+      (click)="closeMenu()"
+    >
+      <span
+        class="relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-neon-cyan/25 via-white/[0.08] to-neon-fuchsia/25 font-bold text-neon-cyan shadow-[0_0_32px_rgba(34,211,238,0.25)] ring-1 ring-white/15 transition duration-500 group-hover:scale-[1.06] group-hover:shadow-[0_0_48px_rgba(232,121,249,0.25)]"
+      >
+        <span
+          class="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100"
+          style="
+            background: linear-gradient(
+              120deg,
+              transparent 30%,
+              rgba(255, 255, 255, 0.12) 50%,
+              transparent 70%
+            );
+          "
+        ></span>
+        DS
+      </span>
+      <span class="hidden flex-col leading-none sm:flex">
+        <span class="text-[15px]">{{ profile.name.split(' ')[0] }}</span>
+        <span class="mt-0.5 text-[10px] font-medium uppercase tracking-[0.28em] text-zinc-500"
+          >Portfolio</span
+        >
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
+      @for (item of nav; track item.href) {
+        <a class="nav-link group/nav relative px-4 py-2 text-[13px] font-medium text-zinc-400" [href]="item.href">
+          <span class="relative z-10 transition duration-300 group-hover/nav:text-white">{{ item.label }}</span>
+          <span
+            class="nav-link__underline pointer-events-none absolute bottom-1 left-4 right-4 h-px origin-left scale-x-0 bg-gradient-to-r from-neon-cyan to-neon-fuchsia opacity-0 transition duration-300 group-hover/nav:scale-x-100 group-hover/nav:opacity-100"
+          ></span>
+        </a>
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href="#contact"
+        class="btn-primary-premium hidden text-[13px] !py-2.5 !px-6 sm:inline-flex"
+      >
+        Let&apos;s talk
+      </a>
+      <button
+        type="button"
+        class="inline-flex rounded-xl border border-white/[0.08] bg-white/[0.03] p-2.5 text-zinc-300 transition hover:bg-white/[0.06] lg:hidden"
+        [attr.aria-expanded]="menuOpen"
+        aria-controls="mobile-nav"
+        (click)="toggleMenu()"
+      >
+        <span class="sr-only">Toggle menu</span>
+        @if (!menuOpen) {
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        } @else {
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (menuOpen) {
+    <div
+      id="mobile-nav"
+      class="border-t border-white/[0.06] bg-surface/[0.96] px-5 py-6 backdrop-blur-xl lg:hidden"
+    >
+      <nav class="flex flex-col gap-1" aria-label="Mobile">
+        @for (item of nav; track item.href) {
+          <a
+            class="rounded-xl px-4 py-3.5 text-[15px] text-zinc-300 transition hover:bg-white/[0.05] hover:text-white"
+            [href]="item.href"
+            (click)="closeMenu()"
+            >{{ item.label }}</a
+          >
+        }
+        <a
+          href="#contact"
+          class="btn-primary-premium mt-4 !justify-center text-[14px]"
+          (click)="closeMenu()"
+          >Let&apos;s talk</a
+        >
+      </nav>
+    </div>
+  }
+</header>

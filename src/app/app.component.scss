@@ -1,0 +1,8 @@
+/* Transparent shell so the fixed animated layer (z-0) stays visible.
+   Previously `-z-10` + solid shell bg painted the gradients behind an opaque layer → black only. */
+.app-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: transparent;
+}

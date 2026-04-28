@@ -1,0 +1,68 @@
+<section
+  id="about"
+  class="section-y"
+  aria-labelledby="about-heading"
+>
+  <div class="section-inner">
+    <div appScrollReveal class="mb-16 max-w-3xl">
+      <div class="section-eyebrow">
+        <span class="section-eyebrow__mark"></span>
+        <span class="section-eyebrow__text text-neon-cyan/90">About</span>
+      </div>
+      <h2 id="about-heading" class="headline-section">
+        Engineering clarity at the intersection of
+        <span class="text-gradient"> product, platform &amp; AI</span>
+      </h2>
+      <p class="lead-section">
+        Precision frontends, dependable backends, and orchestration layers that make LLMs usable in the real world.
+      </p>
+    </div>
+
+    <div appScrollReveal class="card-glow-edge glass-card relative overflow-hidden rounded-[2rem] p-10 md:p-14 lg:p-16">
+      <div
+        class="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-gradient-to-br from-neon-fuchsia/20 via-transparent to-transparent blur-3xl"
+      ></div>
+      <div
+        class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-gradient-to-tr from-neon-cyan/15 via-transparent to-transparent blur-3xl"
+      ></div>
+
+      <div class="relative grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
+        <div class="space-y-8">
+          <p class="text-[1.0625rem] leading-[1.85] text-zinc-400 md:text-lg">
+            I&apos;m <strong class="font-semibold text-zinc-100">{{ profile.name }}</strong
+            >, a {{ profile.role.split('|')[0].trim().toLowerCase() }} based in
+            {{ profile.location }}. I bridge expressive interfaces with production-grade services—and design AI flows that stay observable when everything goes sideways.
+          </p>
+          <p class="text-[1.0625rem] leading-[1.85] text-zinc-400 md:text-lg">
+            From enterprise Angular to LangGraph pipelines, I optimize for adoption: shipping features teams trust, with instrumentation and guardrails baked in.
+          </p>
+        </div>
+        <div class="flex flex-col justify-center gap-5">
+          <div
+            class="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.06] to-transparent p-8 transition duration-500 hover:border-neon-cyan/25 hover:shadow-[0_0_48px_rgba(34,211,238,0.12)]"
+          >
+            <div class="text-[10px] font-semibold uppercase tracking-[0.3em] text-zinc-500">
+              Focus
+            </div>
+            <p class="font-display mt-3 text-2xl font-bold tracking-tight text-white">
+              AI platforms &amp; automation
+            </p>
+            <p class="mt-3 text-[15px] leading-relaxed text-zinc-500">
+              LangGraph orchestration, streaming UX, human-in-the-loop review paths.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent p-8 transition duration-500 hover:border-neon-fuchsia/25"
+          >
+            <div class="text-[10px] font-semibold uppercase tracking-[0.3em] text-zinc-500">
+              Execution
+            </div>
+            <p class="font-display mt-3 text-2xl font-bold tracking-tight text-white">
+              Angular · Node · LLM tooling
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

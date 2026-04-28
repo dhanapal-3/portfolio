@@ -1,0 +1,65 @@
+<div class="bg-layer pointer-events-none fixed inset-0 z-0 overflow-hidden">
+  <!-- Rich base wash -->
+  <div class="base-wash absolute inset-0" aria-hidden="true"></div>
+
+  <canvas
+    #canvas
+    class="canvas absolute inset-0 h-full w-full opacity-[0.48]"
+    aria-hidden="true"
+  ></canvas>
+
+  <!-- Cursor-follow rainbow -->
+  <div
+    class="cursor-rainbow"
+    [style.left.px]="glowX()"
+    [style.top.px]="glowY()"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Large floating mesh blobs -->
+  <div
+    class="mesh-primary absolute -left-[25%] top-[-15%] h-[min(580px,95vw)] w-[min(580px,95vw)] rounded-full opacity-90"
+  ></div>
+  <div
+    class="mesh-secondary absolute -right-[20%] top-[25%] h-[min(420px,70vw)] w-[min(420px,70vw)] rounded-full opacity-80"
+  ></div>
+  <div
+    class="mesh-tertiary absolute -bottom-[10%] left-[15%] h-[min(500px,80vw)] w-[min(500px,80vw)] rounded-full opacity-70"
+  ></div>
+
+  <!-- Extra saturated accent orbs -->
+  <div
+    class="orb-sunset absolute bottom-[5%] right-[-8%] h-[min(440px,65vw)] w-[min(440px,65vw)] rounded-full"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="orb-ocean absolute left-[-12%] top-[38%] h-[min(380px,55vw)] w-[min(380px,55vw)] rounded-full"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="orb-rose absolute right-[8%] bottom-[28%] h-[min(280px,40vw)] w-[min(280px,40vw)] rounded-full"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Animated full-screen color wash (slow drift) -->
+  <div class="spectrum-flow absolute inset-[-30%]" aria-hidden="true"></div>
+
+  <!-- Shimmering holographic veil -->
+  <div class="holo-wave absolute inset-0" aria-hidden="true"></div>
+
+  <!-- Aurora band (richer) -->
+  <div class="aurora-band absolute inset-x-0 top-[12%] h-[50vh] opacity-55"></div>
+
+  <!-- Soft prism streaks -->
+  <div class="prism-sweep absolute inset-0 opacity-40" aria-hidden="true"></div>
+
+  <div
+    class="absolute inset-0 bg-[length:56px_56px] bg-grid-fade opacity-[0.38]"
+  ></div>
+  <div class="absolute inset-0 bg-radial-glow opacity-90"></div>
+
+  <!-- Vignette — slightly lighter edges so colors breathe -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_78%_58%_at_50%_48%,transparent_18%,rgba(5,6,13,0.78)_100%)]"
+  ></div>
+</div>

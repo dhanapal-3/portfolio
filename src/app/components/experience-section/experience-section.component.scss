@@ -1,0 +1,17 @@
+.timeline-beam {
+  background: linear-gradient(
+    180deg,
+    rgba(34, 211, 238, 0.15) 0%,
+    rgba(167, 139, 250, 0.35) 45%,
+    rgba(232, 121, 249, 0.2) 100%
+  );
+  box-shadow: 0 0 24px rgba(167, 139, 250, 0.15);
+}
+
+.timeline-row {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-row:hover {
+  transform: translateX(6px);
+}

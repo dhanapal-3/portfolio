@@ -1,0 +1,62 @@
+<section
+  id="achievements"
+  class="section-y"
+  aria-labelledby="achievements-heading"
+>
+  <div class="section-inner">
+    <div appScrollReveal class="mb-16 max-w-3xl">
+      <div class="section-eyebrow">
+        <span class="section-eyebrow__mark"></span>
+        <span class="section-eyebrow__text text-neon-fuchsia/90">Recognition</span>
+      </div>
+      <h2 id="achievements-heading" class="headline-section">
+        Proof of velocity &amp;
+        <span class="text-gradient"> craft</span>
+      </h2>
+      <p class="lead-section">
+        Milestones that mirror how I work: fast iteration, measurable outcomes, and relentless polish.
+      </p>
+    </div>
+
+    <div class="grid gap-7 md:grid-cols-3 md:gap-8">
+      @for (item of items; track item.title) {
+        <article
+          appScrollReveal
+          class="achievement-card card-glow-edge glass-card group relative flex min-h-[280px] flex-col overflow-hidden rounded-[1.75rem] p-9 transition duration-500"
+        >
+          <div
+            class="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100"
+            [class]="iconGlowClass(item.icon)"
+          ></div>
+          <div class="relative flex flex-1 flex-col">
+            <div
+              class="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.08] to-white/[0.02] text-3xl shadow-inner ring-1 ring-white/[0.06] transition duration-500 group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(167,139,250,0.25)]"
+            >
+              @switch (item.icon) {
+                @case ('trophy') {
+                  🏆
+                }
+                @case ('star') {
+                  ⭐
+                }
+                @case ('rocket') {
+                  🚀
+                }
+              }
+            </div>
+            <h3 class="font-display text-xl font-bold tracking-tight text-white md:text-[1.35rem]">
+              {{ item.title }}
+            </h3>
+            <p class="mt-4 flex-1 text-[15px] leading-relaxed text-zinc-400">
+              {{ item.detail }}
+            </p>
+            <div
+              class="mt-8 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent"
+              aria-hidden="true"
+            ></div>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
