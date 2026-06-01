@@ -8,6 +8,14 @@ import {
   signal,
 } from '@angular/core';
 
+const PARTICLE_COUNT = 72;
+
+function randomBetween(min: number, max: number): number {
+  const values = new Uint32Array(1);
+  crypto.getRandomValues(values);
+  return min + (values[0] / 2 ** 32) * (max - min);
+}
+
 @Component({
   selector: 'app-animated-background',
   standalone: true,
@@ -17,7 +25,6 @@ import {
 export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  /** Viewport coordinates for centered rainbow blob (lerped toward cursor). */
   readonly glowX = signal(0);
   readonly glowY = signal(0);
 
@@ -51,15 +58,14 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
     this.resizeHandler = resize;
     window.addEventListener('resize', resize);
 
-    const particles = Array.from({ length: 72 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      r: Math.random() * 2.4 + 0.35,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45,
-      alpha: Math.random() * 0.48 + 0.1,
-      /** Distributed hues for subtle rainbow sparkles */
-      hue: Math.floor(Math.random() * 360),
+    const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+      x: randomBetween(0, window.innerWidth),
+      y: randomBetween(0, window.innerHeight),
+      r: randomBetween(0.35, 2.75),
+      vx: randomBetween(-0.225, 0.225),
+      vy: randomBetween(-0.225, 0.225),
+      alpha: randomBetween(0.1, 0.58),
+      hue: Math.floor(randomBetween(0, 360)),
     }));
 
     const tick = () => {

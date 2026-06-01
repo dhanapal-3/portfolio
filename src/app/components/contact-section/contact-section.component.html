@@ -29,33 +29,25 @@
         class="pointer-events-none absolute -right-28 top-0 h-[380px] w-[380px] rounded-full bg-gradient-to-bl from-neon-cyan/22 via-transparent to-transparent blur-3xl"
       ></div>
 
-      <div class="relative grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+      <div class="relative grid gap-14 lg:grid-cols-[1.05fr_1fr] lg:items-start lg:gap-16">
         <div>
           <p class="font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
             Tell me about the problem—not only the ticket list.
           </p>
           <p class="mt-6 text-[1.0625rem] leading-relaxed text-zinc-400 md:text-lg">
-            Prefer email or LinkedIn. I typically reply within one business day for serious inquiries.
+            Fill this form and I&apos;ll receive your message by email.
           </p>
-        </div>
-        <div class="flex flex-col gap-4 sm:flex-row lg:flex-col xl:flex-row xl:gap-5">
+          <div class="mt-7 text-sm text-zinc-400">
+            Or reach me directly at
+            <a
+              class="text-neon-cyan transition hover:text-neon-fuchsia"
+              [href]="'mailto:' + contact.email"
+            >
+              {{ contact.email }}
+            </a>
+          </div>
           <a
-            [@ctaEnter]="ctaState()"
-            class="btn-primary-premium cta-email relative z-[1] inline-flex flex-1 items-center justify-center gap-3 !rounded-2xl !py-[1.15rem] text-[15px]"
-            [href]="'mailto:' + contact.email + '?subject=' + profile.name + '%20%E2%80%94%20Portfolio%20inquiry'"
-          >
-            <svg class="relative z-[2] h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
-            <span class="relative z-[2]">Email me</span>
-          </a>
-          <a
-            class="btn-ghost-premium inline-flex flex-1 items-center justify-center gap-3 !rounded-2xl !py-[1.15rem] text-[15px]"
+            class="btn-ghost-premium mt-6 inline-flex items-center justify-center gap-3 !rounded-2xl !py-[1.15rem] text-[15px]"
             [href]="contact.linkedin"
             target="_blank"
             rel="noopener noreferrer"
@@ -68,6 +60,75 @@
             LinkedIn
           </a>
         </div>
+
+        <form
+          [formGroup]="contactForm"
+          (ngSubmit)="submitContactForm()"
+          novalidate
+          class="contact-form space-y-4"
+        >
+          <label class="field-label">
+            Name
+            <input class="field-input" type="text" formControlName="name" placeholder="Your name" />
+            @if (hasError('name')) {
+              <span class="field-error">Enter your name (minimum 2 characters).</span>
+            }
+          </label>
+
+          <label class="field-label">
+            Email
+            <input class="field-input" type="email" formControlName="email" placeholder="you@example.com" />
+            @if (hasError('email')) {
+              <span class="field-error">Enter a valid email address.</span>
+            }
+          </label>
+
+          <label class="field-label">
+            Subject
+            <input class="field-input" type="text" formControlName="subject" placeholder="Project inquiry" />
+            @if (hasError('subject')) {
+              <span class="field-error">Subject should be at least 4 characters.</span>
+            }
+          </label>
+
+          <label class="field-label">
+            Message
+            <textarea
+              class="field-input min-h-32 resize-y"
+              formControlName="message"
+              placeholder="Share your requirements, timeline, and goals."
+            ></textarea>
+            @if (hasError('message')) {
+              <span class="field-error">Message should be at least 15 characters.</span>
+            }
+          </label>
+
+          <button
+            type="submit"
+            class="btn-primary-premium cta-email relative z-[1] inline-flex w-full items-center justify-center gap-3 !rounded-2xl !py-[1.15rem] text-[15px]"
+            [class.opacity-70]="submitState() === 'loading'"
+            [disabled]="submitState() === 'loading'"
+          >
+            <svg class="relative z-[2] h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            <span class="relative z-[2]">
+              {{ submitState() === 'loading' ? 'Sending...' : 'Send message' }}
+            </span>
+          </button>
+
+          @if (submitState() === 'success') {
+            <p class="submit-feedback submit-feedback--success">{{ submitMessage() }}</p>
+          }
+          @if (submitState() === 'error') {
+            <p class="submit-feedback submit-feedback--error">{{ submitMessage() }}</p>
+          }
+        </form>
       </div>
     </div>
   </div>

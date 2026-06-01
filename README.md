@@ -8,7 +8,7 @@ Personal portfolio site for a **Full Stack Developer | AI Systems Builder**, bui
 
 - Single-page layout: Hero, About, Achievements, Skills, Projects, Experience, Contact
 - **Tailwind CSS v4** with `@tailwindcss/postcss` (see `.postcssrc.json`)
-- **Angular Animations** on the contact CTA (`provideAnimations()` in `app.config.ts`)
+- Contact form with lightweight CSS transitions
 - Responsive navigation with mobile menu
 - Content driven from one data file for easy updates
 
@@ -18,7 +18,7 @@ Personal portfolio site for a **Full Stack Developer | AI Systems Builder**, bui
 |--------|---------|
 | Framework | Angular 19 (standalone components) |
 | Styling | Tailwind CSS v4, SCSS for components |
-| Animation | `@angular/animations`, CSS transitions & keyframes |
+| Animation | CSS transitions & keyframes |
 
 ## Prerequisites
 
@@ -41,9 +41,31 @@ Open **http://localhost:4200/**. The dev server reloads when files change.
 | Command | Description |
 |---------|-------------|
 | `npm start` / `ng serve` | Dev server |
+| `npm run start:api` | Contact mail API (Express + SMTP) |
+| `npm run start:full` | Run Angular + mail API together |
 | `npm run build` | Production build → `dist/` |
 | `npm run watch` | Development build in watch mode |
-| `npm test` | Unit tests (Karma) |
+| `npm run lint` | ESLint with SonarJS rules |
+
+## Contact form email setup
+
+The form posts to `POST /api/contact`. A small Express server (`server/index.js`) sends mail via SMTP to `CONTACT_TARGET_EMAIL`.
+
+### 1) Configure environment
+
+```bash
+cp .env.example .env
+```
+
+Set Gmail SMTP (App Password, 16 characters with no spaces) and `CONTACT_TARGET_EMAIL`. Multiple recipients: comma-separated addresses.
+
+### 2) Run locally
+
+```bash
+npm run start:full
+```
+
+Angular proxies `/api` to the mail server on port `4301`. Submit the form at `http://localhost:4200` and check your inbox.
 
 ## Customizing content
 
@@ -79,7 +101,8 @@ Artifacts are written to `dist/dhanapal-portfolio/`. Serve that folder from any 
 
 - Configure `base href` if deploying to a subpath.
 - Add a real **favicon** under `public/` if needed.
-- Keep API keys and secrets out of the repo; this app has no backend by default.
+- Deploy the static site plus the mail API (e.g. Cloud Run) and proxy `/api` to it.
+- Keep `.env` out of the repo.
 
 ## License
 

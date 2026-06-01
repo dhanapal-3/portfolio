@@ -2,6 +2,65 @@
   display: block;
 }
 
-.cta-email {
-  will-change: transform;
+.contact-form {
+  animation: contact-in 0.55s ease-out both;
+}
+
+@keyframes contact-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.93rem;
+  color: rgb(212 212 216);
+}
+
+.field-input {
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid rgb(82 82 91 / 0.8);
+  background: rgb(9 9 11 / 0.72);
+  padding: 0.82rem 0.95rem;
+  color: rgb(250 250 250);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.field-input::placeholder {
+  color: rgb(161 161 170);
+}
+
+.field-input:focus {
+  border-color: rgb(6 182 212 / 0.95);
+  box-shadow: 0 0 0 3px rgb(6 182 212 / 0.2);
+  outline: none;
+}
+
+.field-error {
+  color: rgb(251 113 133);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.submit-feedback {
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.submit-feedback--success {
+  color: rgb(74 222 128);
+}
+
+.submit-feedback--error {
+  color: rgb(251 113 133);
 }

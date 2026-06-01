@@ -118,6 +118,6 @@ export const EXPERIENCE = {
 
 /** Update with your public contact links before deploy */
 export const CONTACT = {
-  email: 'dhanapal.selvam@example.com',
+  email: 'dhanapaldeveloper@gmail.com',
   linkedin: 'https://www.linkedin.com/in/dhanapal-selvam',
 } as const;
