@@ -34,17 +34,14 @@ npm install
 npm start
 ```
 
-Open **http://localhost:4200/**. The dev server reloads when files change.
+Open **http://localhost:4200/**. `npm start` runs the site and contact mail API together.
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm start` / `ng serve` | Dev server |
-| `npm run start:api` | Contact mail API (Express + SMTP) |
-| `npm run start:full` | Run Angular + mail API together |
+| `npm start` | Angular dev server + mail API |
 | `npm run build` | Production build → `dist/` |
-| `npm run watch` | Development build in watch mode |
 | `npm run lint` | ESLint with SonarJS rules |
 
 ## Contact form email setup
@@ -62,7 +59,7 @@ Set Gmail SMTP (App Password, 16 characters with no spaces) and `CONTACT_TARGET_
 ### 2) Run locally
 
 ```bash
-npm run start:full
+npm start
 ```
 
 Angular proxies `/api` to the mail server on port `4301`. Submit the form at `http://localhost:4200` and check your inbox.

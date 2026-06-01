@@ -2,14 +2,9 @@
   "name": "dhanapal-portfolio",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "start:api": "node ./server/index.js",
-    "start:full": "concurrently \"npm run start\" \"npm run start:api\"",
+    "start": "concurrently \"ng serve\" \"node ./server/index.js\"",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint ."
   },
   "private": true,
   "dependencies": {
