@@ -1,6 +1,5 @@
 const js = require('@eslint/js');
 const globals = require('globals');
-const sonarjs = require('eslint-plugin-sonarjs');
 const tseslint = require('typescript-eslint');
 
 module.exports = tseslint.config(
@@ -9,7 +8,6 @@ module.exports = tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  sonarjs.configs.recommended,
   {
     files: ['**/*.{js,ts}'],
     languageOptions: {
@@ -30,9 +28,6 @@ module.exports = tseslint.config(
     files: ['server/**/*.js'],
     languageOptions: {
       globals: globals.node,
-    },
-    rules: {
-      'sonarjs/x-powered-by': 'off',
     },
   }
 );

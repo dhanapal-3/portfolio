@@ -42,7 +42,7 @@ Open **http://localhost:4200/**. `npm start` runs the site and contact mail API 
 |---------|-------------|
 | `npm start` | Angular dev server + mail API |
 | `npm run build` | Production build → `dist/` |
-| `npm run lint` | ESLint with SonarJS rules |
+| `npm run lint` | ESLint |
 
 ## Contact form email setup
 

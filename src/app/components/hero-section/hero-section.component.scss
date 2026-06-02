@@ -6,15 +6,6 @@
   animation: orbit-spin 120s linear infinite reverse;
 }
 
-@keyframes orbit-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .hero-stagger-item {
   opacity: 0;
   transform: translate3d(0, 44px, 0);

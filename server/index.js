@@ -37,9 +37,40 @@ const REQUIRED_ENV = [
 const MIN_NAME_LENGTH = 2;
 const MIN_SUBJECT_LENGTH = 4;
 const MIN_MESSAGE_LENGTH = 15;
+const CONTACT_RATE_LIMIT = 8;
+const CONTACT_RATE_WINDOW_MS = 15 * 60 * 1000;
+
+const contactAttempts = new Map();
+
+function stripCrLf(value) {
+  return String(value ?? '').replaceAll(/[\r\n]/g, '');
+}
+
+function envValue(key) {
+  return stripCrLf(process.env[key]);
+}
 
 function missingEnv() {
-  return REQUIRED_ENV.filter((key) => !process.env[key]);
+  return REQUIRED_ENV.filter((key) => !envValue(key));
+}
+
+function clientKey(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (typeof forwarded === 'string' && forwarded.length > 0) {
+    return forwarded.split(',')[0].trim();
+  }
+  return req.socket.remoteAddress || 'unknown';
+}
+
+function isRateLimited(key) {
+  const now = Date.now();
+  const entry = contactAttempts.get(key);
+  if (!entry || now >= entry.resetAt) {
+    contactAttempts.set(key, { count: 1, resetAt: now + CONTACT_RATE_WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > CONTACT_RATE_LIMIT;
 }
 
 function normalize(value, max) {
@@ -66,19 +97,19 @@ function validate(body) {
   const message = normalize(body.message, 2000);
 
   if (name.length < MIN_NAME_LENGTH) {
-    return 'Invalid name.';
+    return { ok: false, error: 'Invalid name.' };
   }
   if (!isEmail(email)) {
-    return 'Invalid email address.';
+    return { ok: false, error: 'Invalid email address.' };
   }
   if (subject.length < MIN_SUBJECT_LENGTH) {
-    return 'Invalid subject.';
+    return { ok: false, error: 'Invalid subject.' };
   }
   if (message.length < MIN_MESSAGE_LENGTH) {
-    return 'Message is too short.';
+    return { ok: false, error: 'Message is too short.' };
   }
 
-  return { name, email, subject, message };
+  return { ok: true, data: { name, email, subject, message } };
 }
 
 function escapeHtml(value) {
@@ -90,18 +121,18 @@ function escapeHtml(value) {
 }
 
 function createTransporter() {
-  const smtpPort = Number(process.env.SMTP_PORT);
+  const smtpPort = Number(envValue('SMTP_PORT'));
   if (!Number.isInteger(smtpPort) || smtpPort <= 0 || smtpPort > 65535) {
     throw new Error('Invalid SMTP_PORT.');
   }
 
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
+    host: envValue('SMTP_HOST'),
     port: smtpPort,
-    secure: String(process.env.SMTP_SECURE || '').toLowerCase() === 'true',
+    secure: envValue('SMTP_SECURE').toLowerCase() === 'true',
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: envValue('SMTP_USER'),
+      pass: envValue('SMTP_PASS'),
     },
   });
 }
@@ -113,13 +144,22 @@ function isDev() {
 app.get('/api/health', (_req, res) => {
   const missing = missingEnv();
   if (missing.length) {
-    res.status(500).json({ ok: false, missing });
+    const payload = { ok: false };
+    if (isDev()) {
+      payload.missing = missing;
+    }
+    res.status(500).json(payload);
     return;
   }
   res.json({ ok: true });
 });
 
 app.post('/api/contact', async (req, res) => {
+  if (isRateLimited(clientKey(req))) {
+    res.status(429).json({ ok: false, error: 'Too many requests. Try again later.' });
+    return;
+  }
+
   const missing = missingEnv();
   if (missing.length) {
     res.status(500).json({ ok: false, error: 'Mailer is not configured.' });
@@ -127,18 +167,18 @@ app.post('/api/contact', async (req, res) => {
   }
 
   const result = validate(req.body || {});
-  if (typeof result === 'string') {
-    res.status(400).json({ ok: false, error: result });
+  if (!result.ok) {
+    res.status(400).json({ ok: false, error: result.error });
     return;
   }
 
-  const { name, email, subject, message } = result;
-  const fromAddress = process.env.SMTP_FROM || process.env.SMTP_USER;
+  const { name, email, subject, message } = result.data;
+  const fromAddress = envValue('SMTP_FROM') || envValue('SMTP_USER');
 
   try {
     await createTransporter().sendMail({
       from: `"Portfolio" <${fromAddress}>`,
-      to: process.env.CONTACT_TARGET_EMAIL,
+      to: envValue('CONTACT_TARGET_EMAIL'),
       replyTo: email,
       subject: `Portfolio inquiry: ${subject}`,
       text: [`Name: ${name}`, `Email: ${email}`, `Subject: ${subject}`, '', message].join('\n'),

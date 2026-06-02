@@ -38,10 +38,14 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
   private readonly lerp = 0.075;
 
   ngAfterViewInit(): void {
-    this.targetX = this.currentX = window.innerWidth / 2;
-    this.targetY = this.currentY = window.innerHeight / 2;
+    this.targetX = this.currentX = globalThis.innerWidth / 2;
+    this.targetY = this.currentY = globalThis.innerHeight / 2;
     this.glowX.set(this.currentX);
     this.glowY.set(this.currentY);
+
+    if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d');
@@ -50,17 +54,17 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
     }
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = globalThis.innerWidth;
+      canvas.height = globalThis.innerHeight;
     };
 
     resize();
     this.resizeHandler = resize;
-    window.addEventListener('resize', resize);
+    globalThis.addEventListener('resize', resize);
 
     const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
-      x: randomBetween(0, window.innerWidth),
-      y: randomBetween(0, window.innerHeight),
+      x: randomBetween(0, globalThis.innerWidth),
+      y: randomBetween(0, globalThis.innerHeight),
       r: randomBetween(0.35, 2.75),
       vx: randomBetween(-0.225, 0.225),
       vy: randomBetween(-0.225, 0.225),
@@ -69,8 +73,8 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
     }));
 
     const tick = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const width = globalThis.innerWidth;
+      const height = globalThis.innerHeight;
 
       this.currentX += (this.targetX - this.currentX) * this.lerp;
       this.currentY += (this.targetY - this.currentY) * this.lerp;
@@ -109,7 +113,7 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     cancelAnimationFrame(this.animationId);
     if (this.resizeHandler) {
-      window.removeEventListener('resize', this.resizeHandler);
+      globalThis.removeEventListener('resize', this.resizeHandler);
     }
   }
 }

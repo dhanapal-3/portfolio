@@ -48,10 +48,13 @@ export class ContactSectionComponent {
         },
         error: (error: HttpErrorResponse) => {
           this.submitState.set('error');
+          const apiError =
+            typeof error.error?.error === 'string' ? error.error.error : null;
           const details =
             typeof error.error?.details === 'string' ? ` (${error.error.details})` : '';
           this.submitMessage.set(
-            `Could not send your message. Try again or email me directly.${details}`
+            apiError ??
+              `Could not send your message. Try again or email me directly.${details}`
           );
         },
       });
