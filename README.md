@@ -43,6 +43,7 @@ Open **http://localhost:4200/**. `npm start` runs the site and contact mail API 
 | `npm start` | Angular dev server + mail API |
 | `npm run build` | Production build → `dist/` |
 | `npm run lint` | ESLint |
+| `npm run test:e2e` | Playwright E2E (API + navigation) |
 
 ## Contact form email setup
 
@@ -89,17 +90,53 @@ src/
 ## Production build
 
 ```bash
-ng build
+npm run build
 ```
 
-Artifacts are written to `dist/dhanapal-portfolio/`. Serve that folder from any static host (GitHub Pages, Netlify, Vercel, etc.).
+Artifacts are written to `dist/dhanapal-portfolio/browser/`. The contact API is **not** included in that folder—you must deploy the mail server (or a platform that runs it) alongside the static site.
+
+## Production deployment
+
+### Option A — Vercel (static site + API)
+
+This repo includes `vercel.json` and `api/index.js`, which re-exports the Express mail API for serverless routes.
+
+1. Import the repository in [Vercel](https://vercel.com).
+2. Set environment variables (Project → Settings → Environment Variables):
+
+| Variable | Example / notes |
+|----------|-----------------|
+| `FRONTEND_ORIGIN` | `https://your-domain.vercel.app` (must match the deployed site origin) |
+| `SMTP_HOST` | `smtp.gmail.com` |
+| `SMTP_PORT` | `465` |
+| `SMTP_SECURE` | `true` |
+| `SMTP_USER` | Gmail address |
+| `SMTP_PASS` | Gmail App Password |
+| `SMTP_FROM` | Same as `SMTP_USER` (optional) |
+| `CONTACT_TARGET_EMAIL` | Inbox for form submissions |
+| `NODE_ENV` | `production` |
+
+3. Deploy. Vercel serves the Angular build and routes `/api/*` to the serverless handler.
+
+Update `og:url`, `og:image`, and `twitter:image` in `src/index.html` if your production domain differs from the default GitHub Pages URL.
+
+### Option B — Static host + API elsewhere
+
+1. Deploy `dist/dhanapal-portfolio/browser/` to GitHub Pages, Netlify, S3, etc.
+2. Run `server/index.js` on Cloud Run, Railway, or a VPS (`NODE_ENV=production`, `MAIL_API_PORT` as required).
+3. Proxy `/api` from the static host to the mail API (Netlify redirects, nginx, CDN rules).
+
+### Required production env vars
+
+Same as `.env.example`. In production, `FRONTEND_ORIGIN` must be the exact browser origin (scheme + host + port) so CORS accepts form posts. Non-browser clients without an `Origin` header are rejected when `NODE_ENV=production`.
+
+Keep `.env` out of the repo.
 
 ## Deploy notes
 
-- Configure `base href` if deploying to a subpath.
-- Add a real **favicon** under `public/` if needed.
-- Deploy the static site plus the mail API (e.g. Cloud Run) and proxy `/api` to it.
-- Keep `.env` out of the repo.
+- Configure `base href` in `angular.json` / build flags if deploying to a subpath.
+- Replace `public/og-image.svg` (or add `og-image.png` at 1200×630) and update meta tags in `src/index.html`.
+- Add a **favicon** under `public/` if needed.
 
 ## License
 

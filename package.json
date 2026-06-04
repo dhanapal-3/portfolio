@@ -4,7 +4,9 @@
   "scripts": {
     "start": "concurrently \"ng serve\" \"node ./server/index.js\"",
     "build": "ng build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +30,7 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@angular-devkit/build-angular": "^19.2.24",
     "@angular/cli": "^19.2.24",
     "@angular/compiler-cli": "^19.2.0",

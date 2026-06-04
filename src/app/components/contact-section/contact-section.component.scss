@@ -2,6 +2,16 @@
   display: block;
 }
 
+.field-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .contact-form {
   animation: contact-in 0.55s ease-out both;
 }

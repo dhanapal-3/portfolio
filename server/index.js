@@ -13,10 +13,22 @@ const allowedOrigins = new Set(
   )
 );
 
+function isDev() {
+  return process.env.NODE_ENV !== 'production';
+}
+
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) {
+      if (!origin) {
+        if (isDev()) {
+          callback(null, true);
+          return;
+        }
+        callback(new Error('Origin header required'));
+        return;
+      }
+      if (allowedOrigins.has(origin)) {
         callback(null, true);
         return;
       }
@@ -39,11 +51,22 @@ const MIN_SUBJECT_LENGTH = 4;
 const MIN_MESSAGE_LENGTH = 15;
 const CONTACT_RATE_LIMIT = 8;
 const CONTACT_RATE_WINDOW_MS = 15 * 60 * 1000;
+const HONEYPOT_FIELD = 'website';
 
 const contactAttempts = new Map();
 
 function stripCrLf(value) {
   return String(value ?? '').replaceAll(/[\r\n]/g, '');
+}
+
+function stripControlChars(value) {
+  return String(value ?? '')
+    .split('')
+    .map((char) => {
+      const code = char.charCodeAt(0);
+      return code < 32 ? ' ' : char;
+    })
+    .join('');
 }
 
 function envValue(key) {
@@ -62,7 +85,16 @@ function clientKey(req) {
   return req.socket.remoteAddress || 'unknown';
 }
 
+function pruneRateLimits(now = Date.now()) {
+  for (const [key, entry] of contactAttempts) {
+    if (now >= entry.resetAt) {
+      contactAttempts.delete(key);
+    }
+  }
+}
+
 function isRateLimited(key) {
+  pruneRateLimits();
   const now = Date.now();
   const entry = contactAttempts.get(key);
   if (!entry || now >= entry.resetAt) {
@@ -90,10 +122,15 @@ function isEmail(value) {
   return dot > 0 && dot < domain.length - 1 && !domain.includes(' ');
 }
 
+function isHoneypotTriggered(body) {
+  const trap = normalize(body?.[HONEYPOT_FIELD], 200);
+  return trap.length > 0;
+}
+
 function validate(body) {
-  const name = normalize(body.name, 100);
+  const name = stripControlChars(normalize(body.name, 100)).trim();
   const email = normalize(body.email, 200).toLowerCase();
-  const subject = normalize(body.subject, 160);
+  const subject = stripControlChars(normalize(body.subject, 160)).trim();
   const message = normalize(body.message, 2000);
 
   if (name.length < MIN_NAME_LENGTH) {
@@ -137,9 +174,9 @@ function createTransporter() {
   });
 }
 
-function isDev() {
-  return process.env.NODE_ENV !== 'production';
-}
+app.get('/api/ping', (_req, res) => {
+  res.json({ ok: true });
+});
 
 app.get('/api/health', (_req, res) => {
   const missing = missingEnv();
@@ -160,15 +197,20 @@ app.post('/api/contact', async (req, res) => {
     return;
   }
 
-  const missing = missingEnv();
-  if (missing.length) {
-    res.status(500).json({ ok: false, error: 'Mailer is not configured.' });
+  if (isHoneypotTriggered(req.body)) {
+    res.status(400).json({ ok: false, error: 'Invalid request.' });
     return;
   }
 
   const result = validate(req.body || {});
   if (!result.ok) {
     res.status(400).json({ ok: false, error: result.error });
+    return;
+  }
+
+  const missing = missingEnv();
+  if (missing.length) {
+    res.status(500).json({ ok: false, error: 'Mailer is not configured.' });
     return;
   }
 
@@ -200,6 +242,10 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Mail API http://localhost:${port}`);
-});
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Mail API http://localhost:${port}`);
+  });
+}

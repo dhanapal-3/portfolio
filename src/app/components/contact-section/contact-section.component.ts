@@ -26,6 +26,7 @@ export class ContactSectionComponent {
     email: ['', [Validators.required, Validators.email, Validators.maxLength(200)]],
     subject: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(160)]],
     message: ['', [Validators.required, Validators.minLength(15), Validators.maxLength(2000)]],
+    website: [''],
   });
 
   submitContactForm(): void {
@@ -44,7 +45,13 @@ export class ContactSectionComponent {
         next: () => {
           this.submitState.set('success');
           this.submitMessage.set('Message sent. I will get back to you soon.');
-          this.contactForm.reset({ name: '', email: '', subject: '', message: '' });
+          this.contactForm.reset({
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+            website: '',
+          });
         },
         error: (error: HttpErrorResponse) => {
           this.submitState.set('error');

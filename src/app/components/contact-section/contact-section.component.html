@@ -65,8 +65,19 @@
           [formGroup]="contactForm"
           (ngSubmit)="submitContactForm()"
           novalidate
-          class="contact-form space-y-4"
+          class="contact-form relative space-y-4"
         >
+          <div class="field-honeypot" aria-hidden="true">
+            <label for="contact-website">Website</label>
+            <input
+              id="contact-website"
+              type="text"
+              formControlName="website"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
           <label class="field-label">
             Name
             <input class="field-input" type="text" formControlName="name" placeholder="Your name" />
@@ -122,12 +133,19 @@
             </span>
           </button>
 
-          @if (submitState() === 'success') {
-            <p class="submit-feedback submit-feedback--success">{{ submitMessage() }}</p>
-          }
-          @if (submitState() === 'error') {
-            <p class="submit-feedback submit-feedback--error">{{ submitMessage() }}</p>
-          }
+          <div
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            class="submit-feedback-region"
+          >
+            @if (submitState() === 'success') {
+              <p class="submit-feedback submit-feedback--success">{{ submitMessage() }}</p>
+            }
+            @if (submitState() === 'error') {
+              <p class="submit-feedback submit-feedback--error">{{ submitMessage() }}</p>
+            }
+          </div>
         </form>
       </div>
     </div>
